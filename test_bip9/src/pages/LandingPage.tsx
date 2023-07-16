@@ -1,10 +1,21 @@
+import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
+import HeaderNavigation from '../components/HeaderNavigation';
 
 export default function LandingPage() {
 
   const background = require("../assets/background.png");
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [err, setErr] = useState(false)
 
+  const navigation = useNavigation();
+  function masuk(){
+    navigation.push('OTP');
+  }
+
+  
   return (
     <SafeAreaView>
         <ScrollView>
@@ -33,7 +44,7 @@ export default function LandingPage() {
                             </View>
                 </View>
                 <View style={styles.container}>
-                    <TouchableOpacity style={[stylesButton.button, stylesButton.btnMasuk]}> 
+                    <TouchableOpacity style={[stylesButton.button, stylesButton.btnMasuk]} onPress={() => masuk()}> 
                         <Text style={[stylesButton.text,stylesButton.textMasuk]}>Masuk</Text>
                     </TouchableOpacity>
 

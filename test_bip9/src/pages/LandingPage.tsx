@@ -3,22 +3,33 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
 import HeaderNavigation from '../components/HeaderNavigation';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from '../navigation/root';
 
-export default function LandingPage() {
+
+type props = NativeStackScreenProps<RootStackParamList, "Home">
+
+export default function LandingPage({navigation} : props) {
 
   const background = require("../assets/background.png");
-  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [err, setErr] = useState(false)
 
-  const navigation = useNavigation();
+  
   function masuk(){
-    navigation.push('OTP');
+     if(phoneNumber.length < 12){
+        setErr(true)
+    } else{
+        navigation.push('OTP', {
+            phoneNumber: phoneNumber,
+        });
+    }
   }
 
-  
   return (
-    <SafeAreaView>
-        <ScrollView>
+    <View style={{flex: 1, backgroundColor:"white"}}>
+        <SafeAreaView style={{ backgroundColor: '#1F69FF'}} />
+        <ScrollView style={{backgroundColor: 'white'}}>
                 <ImageBackground source={require("../assets/background.png")} resizeMode="cover" style={styles.landingbackground}>
                     <View style={styles.container}>
                        <View style={styles.landingDecs}>
@@ -33,16 +44,21 @@ export default function LandingPage() {
                        </View>
                     </View>
                 </ImageBackground>
-
                 <View style={styles.container}>
                             <Text style={stylesWa.text}>Masukan No WhatsApp</Text>
-                            <TextInput placeholder="0812********" keyboardType="numeric" style={stylesWa.input}/>
-
+                            <TextInput dataDetectorTypes='phoneNumber' 
+                            placeholder="0812********" 
+                            keyboardType="numeric" 
+                            style={stylesWa.input}
+                            onChangeText={(i) => setPhoneNumber(i)}
+                            maxLength={14}
+                            />
                             <View style={stylesWa.infoText}>
                                 <Image source={require("../assets/danger-circle.png")} style={stylesWa.dangerIcon}/>
                                 <Text>Masukan nomor WhatsApp yang terdaftar dalam aplikasi Bangbeli</Text>
                             </View>
                 </View>
+
                 <View style={styles.container}>
                     <TouchableOpacity style={[stylesButton.button, stylesButton.btnMasuk]} onPress={() => masuk()}> 
                         <Text style={[stylesButton.text,stylesButton.textMasuk]}>Masuk</Text>
@@ -51,18 +67,15 @@ export default function LandingPage() {
                     <TouchableOpacity style={[stylesButton.button, stylesButton.btnDaftar]}> 
                         <Text style={[stylesButton.text,stylesButton.textDaftar]}>Daftar</Text>
                     </TouchableOpacity>
-
                 </View>
         </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 
 const styles = StyleSheet.create({
   container:{
-    // flex:1,
-    // flexDirection: 'column',
     padding: 16
   },
 

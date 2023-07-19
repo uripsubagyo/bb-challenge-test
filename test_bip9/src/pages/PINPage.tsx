@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import HeaderNavigation from '../components/HeaderNavigation';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from '../../App';
+import { RootStackParamList } from '../navigation/root';
+
 
 
 
 type propsPIN = NativeStackScreenProps<RootStackParamList, "PIN">
 
-export default function PINPage(props: propsPIN) {
+export default function PINPage({route, navigation}: propsPIN) {
     const [PIN, setPIN] = useState<number[]>([])
     const [myPIN, setPin] = useState<String>("")
     const lengthPin:number[] = [1, 2, 3, 4, 5, 6]
@@ -39,7 +40,7 @@ export default function PINPage(props: propsPIN) {
   return (
     <View>
         <SafeAreaView style={stylesPINPage.safeArea}/>
-        <HeaderNavigation navigation={props.navigation} goBack= "Home" title={""}/>
+        <HeaderNavigation navigation={navigation} goBack= "Home" title={""}/>
         <View style={stylesPINPage.container}>
             <Text style={stylesPINPage.textPin}>Masukkan PIN</Text>
             <View style={stylesPINPage.circleSection}>

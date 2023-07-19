@@ -1,71 +1,111 @@
 import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import HeaderNavigation from '../components/HeaderNavigation';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from '../../App';
 
-export default function PINPage() {
+
+
+type propsPIN = NativeStackScreenProps<RootStackParamList, "PIN">
+
+export default function PINPage(props: propsPIN) {
+    const [PIN, setPIN] = useState<number[]>([])
+    const [myPIN, setPin] = useState<String>("")
+    const lengthPin:number[] = [1, 2, 3, 4, 5, 6]
+
+
+    function addPIN(data: number){
+        if(PIN.length <= 6){
+            let temp:number[] = [...PIN, data]
+            setPIN(temp)
+            console.log(PIN)
+
+            if(PIN.length == 6){
+                let pin = PIN.join("");
+                setPin(pin)
+            }
+        }
+    }
+
+    function removePIN(){
+        if(PIN.length != 0){
+            let pin:number[] = PIN;
+            pin.pop();
+            setPIN(pin);
+        }
+    }
+
   return (
-    <SafeAreaView>
-        <View style={styles.container}>
-            <Text style={styles.textPin}>Masukkan PIN</Text>
-            {/* TODO: BUAT DOT PIN */}
-            <View style={styles.circleSection}>
-                <View style={[styles.circle, styles.circleNone]}></View>
-                <View style={[styles.circle, styles.circleNone]}></View>
-                <View style={[styles.circle, styles.circleNone]}></View>
-                <View style={[styles.circle, styles.circleNone]}></View>
-                <View style={[styles.circle, styles.circleNone]}></View>
+    <View>
+        <SafeAreaView style={stylesPINPage.safeArea}/>
+        <HeaderNavigation navigation={props.navigation} goBack= "Home" title={""}/>
+        <View style={stylesPINPage.container}>
+            <Text style={stylesPINPage.textPin}>Masukkan PIN</Text>
+            <View style={stylesPINPage.circleSection}>
+                {lengthPin.map(() => 
+                    <View style={stylesPINPage.circle}>
+                    </View> )
+                }
             </View>
             <View style={styleNumber.numberSection}>
                 <View style={styleNumber.row}>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={()=> addPIN(1)}>
                         <Text style={styleNumber.textButton}>1</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(2)}>
                         <Text style={styleNumber.textButton}>2</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(3)}>
                         <Text style={styleNumber.textButton}>3</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styleNumber.row}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(4)}>
                         <Text style={styleNumber.textButton}>4</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(5)}>
                         <Text style={styleNumber.textButton}>5</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(6)}>
                         <Text style={styleNumber.textButton}>6</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styleNumber.row}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(7)}>
                         <Text style={styleNumber.textButton}>7</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(8)}>
                         <Text style={styleNumber.textButton}>8</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> addPIN(9)}>
                         <Text style={styleNumber.textButton}>9</Text>
                     </TouchableOpacity>
                 </View>
+
+
                 <View style={styleNumber.row}>
                     <View style={{width:24,}}></View>
                     <TouchableOpacity>
                         <Text style={styleNumber.textButton}>0</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => removePIN()}>
                          <Image source={require("../assets/delete.png")} style={styleNumber.delete}/>
                     </TouchableOpacity>
                 </View>
             </View>
         </View>
-    </SafeAreaView>
+        </View>
   );
 }
 
-const styles = StyleSheet.create({
+const stylesPINPage = StyleSheet.create({
+    safeArea:{
+        backgroundColor: "#1F69FF"
+    },
+
   container: {
     backgroundColor: '#1F69FF',
     height: '100%',
@@ -93,14 +133,8 @@ const styles = StyleSheet.create({
     height: 14,
     width: 14,
     borderRadius: 30,
-  },
-
-  circleNone:{
     backgroundColor:'white'
-  },
 
-  circleField:{
-    backgroundColor:'#FFFFF1'
   },
 
   row:{

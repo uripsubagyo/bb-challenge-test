@@ -15,16 +15,21 @@ export default function LandingPage({navigation} : props) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [err, setErr] = useState(false)
 
+  const [active, setActive] = useState(false);
+  const customStyle = active?[stylesWa.input, stylesWa.inputActive]:  stylesWa.input 
   
   function masuk(){
      if(phoneNumber.length < 12){
         setErr(true)
     } else{
+        setErr(false)
         navigation.push('OTP', {
             phoneNumber: phoneNumber,
         });
     }
   }
+
+  
 
   return (
     <View style={{flex: 1, backgroundColor:"white"}}>
@@ -49,10 +54,15 @@ export default function LandingPage({navigation} : props) {
                             <TextInput dataDetectorTypes='phoneNumber' 
                             placeholder="0812********" 
                             keyboardType="numeric" 
-                            style={stylesWa.input}
-                            onChangeText={(i) => setPhoneNumber(i)}
+                            style={err ? [stylesWa.inputErr ]: customStyle}
+                            onChangeText={(i) => {
+                                setActive(true);
+                                setErr(false);
+                                setPhoneNumber(i)}
+                                }
                             maxLength={14}
                             />
+                            {err? <Text style={stylesWa.error}>Error message</Text> :<></>}
                             <View style={stylesWa.infoText}>
                                 <Image source={require("../assets/danger-circle.png")} style={stylesWa.dangerIcon}/>
                                 <Text>Masukan nomor WhatsApp yang terdaftar dalam aplikasi Bangbeli</Text>
@@ -120,6 +130,19 @@ const stylesWa = StyleSheet.create({
         backgroundColor: ('#E9F0FF'),
     },
 
+    inputActive:{
+       borderColor: ('#1F69FF'),
+       borderWidth: 1
+    },
+
+    inputErr:{
+        padding: 12,
+        borderRadius: 12,
+        borderColor: 'red',
+        borderWidth:1,
+        backgroundColor: 'white',
+    },
+
     infoText:{
         marginTop:16,
         flexDirection:'row',
@@ -137,6 +160,12 @@ const stylesWa = StyleSheet.create({
         height:24,
         width:24,
         alignSelf:'center',
+    },
+
+    error:{
+        marginTop: 10,
+        color: 'red',
+        alignSelf: 'flex-end'
     }
 })
 

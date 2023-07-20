@@ -127,14 +127,16 @@ const stylesWa = StyleSheet.create({
         borderRadius: 8,
         padding:20,
         gap: 10,
-        borderColor: ('black'), 
-        justifyContent:'center'
+        borderColor: ('#E0E0E0'),
+        borderWidth: 1,
+        justifyContent:'center',
+
     },
 
     dangerIcon:{
         height:24,
         width:24,
-        alignSelf:'center'
+        alignSelf:'center',
     }
 })
 
@@ -165,7 +167,6 @@ const stylesButton = StyleSheet.create({
         backgroundColor: ('#1F69FF'), 
         color:'white',
         fontSize: 20,
-
     },
     textDaftar:{
         backgroundColor: 'white',

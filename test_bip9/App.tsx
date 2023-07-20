@@ -1,16 +1,14 @@
+import { RootStackParamList } from './src/navigation/root';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import LandingPage from './src/pages/LandingPage';
 import OTPPage from './src/pages/OTPPage';
 import PINPage from './src/pages/PINPage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import {SafeAreaProvider,} from 'react-native-safe-area-context';
-import { RootStackParamList } from './src/navigation/root';
 
-
-
-// const Stack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {

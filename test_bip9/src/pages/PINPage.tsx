@@ -20,7 +20,6 @@ export default function PINPage({route, navigation}: propsPIN) {
         if(PIN.length <= 6){
             let temp:number[] = [...PIN, data]
             setPIN(temp)
-            console.log(PIN)
 
             if(PIN.length == 6){
                 let pin = PIN.join("");
@@ -51,37 +50,37 @@ export default function PINPage({route, navigation}: propsPIN) {
             </View>
             <View style={styleNumber.numberSection}>
                 <View style={styleNumber.row}>
-                    <TouchableOpacity onPress={()=> addPIN(1)}>
+                    <TouchableOpacity onPress={()=> addPIN(1)} key={1}>
                         <Text style={styleNumber.textButton}>1</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(2)}>
+                    <TouchableOpacity onPress={()=> addPIN(2)} key={2}>
                         <Text style={styleNumber.textButton}>2</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(3)}>
+                    <TouchableOpacity onPress={()=> addPIN(3)} key={3}>
                         <Text style={styleNumber.textButton}>3</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styleNumber.row}>
-                    <TouchableOpacity onPress={()=> addPIN(4)}>
+                    <TouchableOpacity onPress={()=> addPIN(4)} key={4}>
                         <Text style={styleNumber.textButton}>4</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(5)}>
+                    <TouchableOpacity onPress={()=> addPIN(5)} key={5}>
                         <Text style={styleNumber.textButton}>5</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(6)}>
+                    <TouchableOpacity onPress={()=> addPIN(6)} key={6}>
                         <Text style={styleNumber.textButton}>6</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styleNumber.row}>
-                    <TouchableOpacity onPress={()=> addPIN(7)}>
+                    <TouchableOpacity onPress={()=> addPIN(7)} key={7}>
                         <Text style={styleNumber.textButton}>7</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(8)}>
+                    <TouchableOpacity onPress={()=> addPIN(8)} key={8}>
                         <Text style={styleNumber.textButton}>8</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> addPIN(9)}>
+                    <TouchableOpacity onPress={()=> addPIN(9)} key={9}>
                         <Text style={styleNumber.textButton}>9</Text>
                     </TouchableOpacity>
                 </View>
@@ -89,8 +88,8 @@ export default function PINPage({route, navigation}: propsPIN) {
 
                 <View style={styleNumber.row}>
                     <View style={{width:24,}}></View>
-                    <TouchableOpacity>
-                        <Text style={styleNumber.textButton}>0</Text>
+                    <TouchableOpacity onPress={()=> addPIN(0)} key={0}>
+                        <Text style={styleNumber.textButton} >0</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => removePIN()}>
                          <Image source={require("../assets/delete.png")} style={styleNumber.delete}/>

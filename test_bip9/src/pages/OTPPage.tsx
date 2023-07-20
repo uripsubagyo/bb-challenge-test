@@ -1,5 +1,6 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, NativeSyntheticEvent, TextInputKeyPressEventData, } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, NativeSyntheticEvent, TextInputKeyPressEventData, Alert, } from 'react-native';
 import HeaderNavigation from '../components/HeaderNavigation';
+import GetOTP from '../components/GetOTP';
 import {useRef, useState, useEffect } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/root';
@@ -9,20 +10,19 @@ type propsOTP = NativeStackScreenProps<RootStackParamList, "OTP">
 
 export default function OTPPage({route,navigation}: propsOTP) {
   const inputLenth = 4;  
-  const inputRefs = useRef<Array<NonNullable<TextInput>>>([])
-  const [OTP, setOTP] = useState<String[]>(["","","",""])
-  const [fullOTP, setFullOTP] = useState<number>(0)
-  const [timerLeft, setTimerLeft] = useState(15)
+  const inputRefs = useRef<Array<NonNullable<TextInput>>>([]);
+  const [OTP, setOTP] = useState<String[]>(["","","",""]);
+  const [fullOTP, setFullOTP] = useState<number>(0);
 
 
   const handleChange = (text: String, index:number) => {
     onChangeValue(text, index);
-    if(index == 3){
-      //TODO: navigate to Pin Page
-      navigation.navigate("PIN", {
-        phoneNumber: route.params.phoneNumber
-      })
-    }else {
+    
+    if(fullOTP === 4){
+        navigation.navigate("PIN", {
+          phoneNumber: route.params.phoneNumber
+        })
+    } else {
       if(text.length != 0){
         return inputRefs?.current[index + 1]?.focus()
       }
@@ -33,11 +33,11 @@ export default function OTPPage({route,navigation}: propsOTP) {
   const onChangeValue = (text:String, index:number) => {
       const newOTP = OTP.map((item, itemindex)=> {
         if(itemindex == index){
-          if(item == ""){
+          if(item === ""){
             if(text != ""){
               setFullOTP(fullOTP + 1);
             } 
-          } else if(text == ""){
+          } else if(text === ""){
             if(item != ""){
               setFullOTP(fullOTP - 1);
             }
@@ -48,25 +48,16 @@ export default function OTPPage({route,navigation}: propsOTP) {
       }
     )
     setOTP(newOTP);
- 
   }
 
-  const removeOTP = (event:NativeSyntheticEvent<TextInputKeyPressEventData>,index:number) =>{
+  const removeOTP = (event:NativeSyntheticEvent<TextInputKeyPressEventData>, index:number) =>{
     const {nativeEvent} = event;
 
-    if(nativeEvent.key == "Backspace"){
-      handleChange("", index)
+    if(nativeEvent.key.match('Backspace')){
+        handleChange("", index)
     }
+    
   }
-
-    useEffect(()=> {
-      if(timerLeft <= 0) return;
-
-        setTimeout(()=> {
-            setTimerLeft(timerLeft - 1);
-        }, 1000)
-
-    }, [timerLeft])
 
   return (
     <View>
@@ -88,20 +79,21 @@ export default function OTPPage({route,navigation}: propsOTP) {
                         }}
                       key={index}
                       maxLength={1} 
-                      keyboardType='decimal-pad'
+                      keyboardType='numeric'
                       contextMenuHidden
                       selectTextOnFocus
                       blurOnSubmit={false}
                       testID={ `OTPInput-${index}`}
                       onChangeText={text => handleChange(text, index)}
                       onKeyPress={event => removeOTP(event, index)}
+                      // onKeyPress = {e => {e.nativeEvent.key === 'Backspace' ? alert('delete') : alert(e)}}
                       ></TextInput>
                     ))
                   }   
               </View>
               <Text>
                   <Text>Belum dapat kode? </Text>
-                  {timerLeft == 0? <Text style={stylesOTP.timer}>Kirim Ulang</Text> : <Text style={stylesOTP.timer}>{`(Tunggu ${timerLeft}s)`}</Text>}
+                  {<GetOTP style={stylesOTP.timer}></GetOTP>}
               </Text>
           </View>
      </View>
